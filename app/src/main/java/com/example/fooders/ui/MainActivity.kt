@@ -1,8 +1,8 @@
 package com.example.fooders.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val bottomNavigationView = binding.bottomNavigationView
-        val mainController = findNavController(R.id.nav_host_fragment_activity_main)
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
         val topLevelDestinations = setOf(
             R.id.mainFragment,
             R.id.searchFragment,
@@ -31,10 +31,10 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        binding.toolbar.setupWithNavController(mainController, appBarConfiguration)
+        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
 
-        bottomNavigationView.setupWithNavController(mainController)
-            mainController.addOnDestinationChangedListener { controller, destination, arguments ->
+        bottomNavigationView.setupWithNavController(navController)
+            navController.addOnDestinationChangedListener { controller, destination, arguments ->
             binding.bottomNavigationView.visibility = if (topLevelDestinations.contains(destination.id))
                 View.VISIBLE
             else

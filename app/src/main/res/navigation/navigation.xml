@@ -8,7 +8,7 @@
             android:id="@+id/mainFragment"
             android:name="com.example.fooders.ui.mainScreen.MainFragment"
             android:label="@string/main_screen_name"
-            tools:layout="@layout/fr_main"/>
+            tools:layout="@layout/fr_main" />
     <fragment
             android:id="@+id/searchFragment"
             android:name="com.example.fooders.ui.searchScreen.SearchFragment"
