@@ -6,13 +6,5 @@
         android:layout_height="match_parent"
         tools:context=".ui.mainScreen.MainFragment">
 
-    <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp" />
+    <include layout="@layout/main_top_menu_items" />
 </androidx.constraintlayout.widget.ConstraintLayout>

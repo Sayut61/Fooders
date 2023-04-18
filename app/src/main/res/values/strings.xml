@@ -4,4 +4,7 @@
     <string name="search_screen_name">Поиск</string>
     <string name="favorite_screen_name">Избранное</string>
     <string name="profile_screen_name">Профиль</string>
+    <string name="add_recipe">Добавить\nрецепт</string>
+    <string name="my_recipe">Мои рецепты</string>
+    <string name="purchases">Покупки</string>
 </resources>
