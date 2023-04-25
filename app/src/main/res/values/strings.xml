@@ -7,4 +7,6 @@
     <string name="add_recipe">Добавить\nрецепт</string>
     <string name="my_recipe">Мои рецепты</string>
     <string name="purchases">Покупки</string>
+    <string name="food_categories">Категории блюд</string>
+    <string name="all_btn">Все</string>
 </resources>
