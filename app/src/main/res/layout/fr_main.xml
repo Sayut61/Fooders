@@ -6,8 +6,10 @@
         android:orientation="vertical"
         tools:context=".ui.mainScreen.MainFragment">
 
-    <include layout="@layout/main_top_items" />
+    <include layout="@layout/main_top_menu" />
 
-    <include layout="@layout/main_center_items" />
+    <include layout="@layout/main_menu" />
+
+    <include layout="@layout/main_menu" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
