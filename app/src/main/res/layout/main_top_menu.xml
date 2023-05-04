@@ -37,10 +37,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:textSize="14sp"
-                    android:textAlignment="center"
-                    app:layout_constraintTop_toBottomOf="@+id/ic_add_recipe" />
+                    android:textAlignment="center" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
@@ -60,9 +60,9 @@
 
             <ImageView
                     android:id="@+id/ic_my_recipe"
-                    android:src="@drawable/ic_add_recipe"
+                    android:src="@drawable/ic_recipe"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -98,9 +98,9 @@
 
             <ImageView
                     android:id="@+id/ic_purchases"
-                    android:src="@drawable/ic_add_recipe"
+                    android:src="@drawable/ic_shopping"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
