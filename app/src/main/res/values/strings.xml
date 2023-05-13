@@ -8,5 +8,6 @@
     <string name="my_recipe">Мои рецепты</string>
     <string name="purchases">Покупки</string>
     <string name="food_categories">Категории блюд</string>
+    <string name="popular_food">Популярные блюда</string>
     <string name="all_btn">Все</string>
 </resources>
