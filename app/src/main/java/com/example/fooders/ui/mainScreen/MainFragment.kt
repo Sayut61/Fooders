@@ -6,15 +6,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.fooders.databinding.FrMainBinding
 import com.example.fooders.ui.adapters.CategoriesAdapter
 import com.example.fooders.ui.adapters.CategoriesListener
+import com.example.fooders.ui.common.ConstantsFirebase.FIREBASE_CATEGORIES_FOLDER
 import com.example.fooders.ui.common.ConstantsFirebase.FIREBASE_STORAGE
 import com.example.fooders.ui.common.ConstantsFirebase.ONE_MEGABYTE
-import com.example.fooders.ui.common.ImagesAsset
+import com.example.fooders.ui.utils.changeCatName
 import com.google.firebase.storage.FirebaseStorage
 
 class MainFragment : Fragment(), CategoriesListener {
@@ -37,24 +37,17 @@ class MainFragment : Fragment(), CategoriesListener {
     private fun getImagesFromFirebaseStorage() {
         val storage = FirebaseStorage.getInstance(FIREBASE_STORAGE)
         val storageRef = storage.reference
-        val imageRefs = ImagesAsset.CATEGORIES.values
-        val images = mutableListOf<Bitmap>()
+        val imageRefs = storageRef.child(FIREBASE_CATEGORIES_FOLDER)
+        val imageMap = mutableMapOf<String, Bitmap>()
 
-        imageRefs.forEach { bm ->
-            storageRef.child(bm).getBytes(ONE_MEGABYTE)
-                .addOnSuccessListener { bytes ->
-                    try {
-                        val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                        images.add(bitmap)
-
-                        showCategories(ImagesAsset.CATEGORIES.keys.zip(images).toMap())
-                    } catch (e: Exception) {
-                        Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
-                    }
+        imageRefs.listAll().addOnSuccessListener { listResult ->
+            listResult.items.forEach { item ->
+                item.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
+                    val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                    imageMap[changeCatName(requireContext(), item.name)] = bitmap
+                    showCategories(categories = imageMap)
                 }
-                .addOnFailureListener { ex ->
-                    Toast.makeText(requireContext(), ex.message, Toast.LENGTH_LONG).show()
-                }
+            }
         }
     }
 

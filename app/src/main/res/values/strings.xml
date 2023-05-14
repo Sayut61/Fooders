@@ -10,4 +10,10 @@
     <string name="food_categories">Категории блюд</string>
     <string name="popular_food">Популярные блюда</string>
     <string name="all_btn">Все</string>
+    <string name="dessert">Десерты</string>
+    <string name="garnish">Гарниры</string>
+    <string name="pastry">Выпечка</string>
+    <string name="salad">Салаты</string>
+    <string name="sauce">Соусы</string>
+    <string name="snack">Закуски</string>
 </resources>
