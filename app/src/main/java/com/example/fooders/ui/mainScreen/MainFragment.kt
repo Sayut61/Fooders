@@ -14,6 +14,7 @@ import com.example.fooders.databinding.FrMainBinding
 import com.example.fooders.domain.entities.RandomRecipeEntity
 import com.example.fooders.ui.adapters.CategoriesAdapter
 import com.example.fooders.ui.adapters.CategoriesListener
+import com.example.fooders.ui.adapters.RandomRecipesAdapter
 import com.example.fooders.ui.adapters.RandomRecipesListener
 import com.example.fooders.ui.common.ConstantsFirebase.FIREBASE_CATEGORIES_FOLDER
 import com.example.fooders.ui.common.ConstantsFirebase.FIREBASE_STORAGE
@@ -76,8 +77,8 @@ class MainFragment : Fragment(), CategoriesListener, RandomRecipesListener {
     }
 
     private fun showRandomRecipes(recipes: List<RandomRecipeEntity>) {
-        /*val adapter = RandomRecipesAdapter(recipes, this)
-        binding.randomRecipesRV.adapter = adapter*/
+        val adapter = RandomRecipesAdapter(recipes, this)
+        binding.randomRecipesRV.adapter = adapter
     }
 
     override fun onRecipeClick(randomRecipe: RandomRecipeEntity) {

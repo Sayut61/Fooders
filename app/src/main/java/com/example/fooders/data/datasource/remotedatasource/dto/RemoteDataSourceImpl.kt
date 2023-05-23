@@ -2,6 +2,7 @@ package com.example.fooders.data.datasource.remotedatasource.dto
 
 import com.example.fooders.data.datasource.remotedatasource.dto.randomrecipe.RandomRecipes
 import com.example.fooders.data.datasource.remotedatasource.interceptors.ErrorInterceptor
+import com.example.fooders.data.datasource.remotedatasource.interceptors.HeaderInterceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,7 +13,7 @@ class RemoteDataSourceImpl @Inject constructor() : RemoteDataSource {
 
     private val client = OkHttpClient()
         .newBuilder()
-        //.addInterceptor(HeaderInterceptor())
+        .addInterceptor(HeaderInterceptor())
         .addInterceptor(ErrorInterceptor())
         .build()
 
