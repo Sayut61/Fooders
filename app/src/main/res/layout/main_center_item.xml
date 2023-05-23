@@ -13,7 +13,6 @@
             android:focusable="true"
             android:layout_marginHorizontal="8dp"
             android:layout_gravity="center"
-
             android:foreground="?selectableItemBackground"
             android:orientation="vertical"
             app:cardCornerRadius="15dp"

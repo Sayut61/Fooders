@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.fooders.databinding.FrMainBinding
 import com.example.fooders.domain.entities.RandomRecipeEntity
 import com.example.fooders.ui.adapters.CategoriesAdapter
@@ -44,6 +45,7 @@ class MainFragment : Fragment(), CategoriesListener, RandomRecipesListener {
         binding.categoriesRV.layoutManager = GridLayoutManager(requireContext(), 3)
         binding.randomRecipesRV.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        PagerSnapHelper().attachToRecyclerView(binding.randomRecipesRV)
 
         getImagesFromFirebaseStorage()
 
