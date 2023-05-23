@@ -6,17 +6,18 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
-import retrofit2.http.Query
+import javax.inject.Inject
 
-class RemoteDataSourceImpl : RemoteDataSource {
+class RemoteDataSourceImpl @Inject constructor() : RemoteDataSource {
 
     private val client = OkHttpClient()
         .newBuilder()
+        //.addInterceptor(HeaderInterceptor())
         .addInterceptor(ErrorInterceptor())
         .build()
 
     private var spoonApi = Retrofit.Builder()
-        .baseUrl("https://statsapi.web.nhl.com")
+        .baseUrl("https://api.spoonacular.com")
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
@@ -24,11 +25,11 @@ class RemoteDataSourceImpl : RemoteDataSource {
     private var serviceForSpoonApi = spoonApi.create(RestSpoonApi::class.java)
 
     private interface RestSpoonApi {
-        @GET(value = "/recipes/random")
-        suspend fun getRandomRecipe(@Query("number") listSize: Int): RandomRecipes
+        @GET(value = "/recipes/random?number=10")
+        suspend fun getRandomRecipe(): RandomRecipes
     }
 
-    override suspend fun getRandomRecipes(listSize: Int): RandomRecipes {
-        return serviceForSpoonApi.getRandomRecipe(listSize)
+    override suspend fun getRandomRecipes(): RandomRecipes {
+        return serviceForSpoonApi.getRandomRecipe()
     }
 }
