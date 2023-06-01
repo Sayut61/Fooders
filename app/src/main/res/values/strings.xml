@@ -16,4 +16,7 @@
     <string name="salad">Салаты</string>
     <string name="sauce">Соусы</string>
     <string name="snack">Закуски</string>
+    <string name="error_screen_title">По данному запросу ничего не найдено</string>
+    <string name="error_screen_subtitle">попробуйте изменить запрос</string>
+    <string name="search_view_title">Поиск по ингредиентам</string>
 </resources>

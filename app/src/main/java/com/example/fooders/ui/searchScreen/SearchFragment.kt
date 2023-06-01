@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.fooders.R
 import com.example.fooders.databinding.FrSearchBinding
 
 class SearchFragment: Fragment() {
@@ -18,6 +19,10 @@ class SearchFragment: Fragment() {
     ): View? {
         _binding = FrSearchBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
+        binding.cardView.setOnClickListener {
+            binding.searchView.isIconified = false
+            binding.searchTv.visibility = View.GONE
+        }
         return binding.root
     }
 }
