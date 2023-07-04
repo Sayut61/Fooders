@@ -26,23 +26,13 @@ class MainViewModel @Inject constructor(
     private val _categoriesFromFirebase = MutableLiveData<Map<String, Bitmap>>()
     val categoriesFromFirebase: LiveData<Map<String, Bitmap>> = _categoriesFromFirebase
 
-    private var isCategoriesLoaded = false
-    private var isRandomRecipesLoaded = false
-
     fun loadRecipes() {
-        if (isRandomRecipesLoaded) {
-            return
-        }
         viewModelScope.launch {
             _randomRecipesLiveData.value = recipesUseCases.getRandomRecipes()
         }
-        isRandomRecipesLoaded = true
     }
 
     fun loadCategoriesFromFirebaseStorage(context: Context) {
-        if (isCategoriesLoaded) {
-            return
-        }
         val storage = FirebaseStorage.getInstance(ConstantsFirebase.FIREBASE_STORAGE)
         val storageRef = storage.reference
         val imageRefs = storageRef.child(ConstantsFirebase.FIREBASE_CATEGORIES_FOLDER)
@@ -60,6 +50,5 @@ class MainViewModel @Inject constructor(
                 }
             }
         }
-        isCategoriesLoaded = true
     }
 }

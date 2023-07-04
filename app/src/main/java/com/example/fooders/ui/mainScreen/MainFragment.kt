@@ -30,13 +30,23 @@ class MainFragment : Fragment(), CategoriesListener, RandomRecipesListener {
     ): View? {
         _binding = FrMainBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.categoriesRV.layoutManager = GridLayoutManager(requireContext(), 3)
         binding.randomRecipesRV.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         PagerSnapHelper().attachToRecyclerView(binding.randomRecipesRV)
 
-        viewModel.loadRecipes()
-        viewModel.loadCategoriesFromFirebaseStorage(requireContext())
+
+        if (viewModel.randomRecipesData.value == null) {
+            viewModel.loadRecipes()
+        }
+
+        if (viewModel.categoriesFromFirebase.value == null) {
+            viewModel.loadCategoriesFromFirebaseStorage(requireContext())
+        }
 
         viewModel.randomRecipesData.observe(viewLifecycleOwner) {
             showRandomRecipes(it)
@@ -45,8 +55,6 @@ class MainFragment : Fragment(), CategoriesListener, RandomRecipesListener {
         viewModel.categoriesFromFirebase.observe(viewLifecycleOwner) {
             showCategories(it)
         }
-
-        return binding.root
     }
 
     private fun showCategories(categories: Map<String, Bitmap>) {
