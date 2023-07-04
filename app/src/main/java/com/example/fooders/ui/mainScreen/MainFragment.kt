@@ -1,7 +1,6 @@
 package com.example.fooders.ui.mainScreen
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,11 +16,6 @@ import com.example.fooders.ui.adapters.CategoriesAdapter
 import com.example.fooders.ui.adapters.CategoriesListener
 import com.example.fooders.ui.adapters.RandomRecipesAdapter
 import com.example.fooders.ui.adapters.RandomRecipesListener
-import com.example.fooders.ui.common.ConstantsFirebase.FIREBASE_CATEGORIES_FOLDER
-import com.example.fooders.ui.common.ConstantsFirebase.FIREBASE_STORAGE
-import com.example.fooders.ui.common.ConstantsFirebase.ONE_MEGABYTE
-import com.example.fooders.ui.utils.changeCatName
-import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,37 +30,23 @@ class MainFragment : Fragment(), CategoriesListener, RandomRecipesListener {
     ): View? {
         _binding = FrMainBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
-        viewModel.loadRecipes()
-
-        viewModel.randomRecipesData.observe(viewLifecycleOwner) {
-            showRandomRecipes(it)
-        }
-
         binding.categoriesRV.layoutManager = GridLayoutManager(requireContext(), 3)
         binding.randomRecipesRV.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         PagerSnapHelper().attachToRecyclerView(binding.randomRecipesRV)
 
-        getImagesFromFirebaseStorage()
+        viewModel.loadRecipes()
+        viewModel.loadCategoriesFromFirebaseStorage(requireContext())
+
+        viewModel.randomRecipesData.observe(viewLifecycleOwner) {
+            showRandomRecipes(it)
+        }
+
+        viewModel.categoriesFromFirebase.observe(viewLifecycleOwner) {
+            showCategories(it)
+        }
 
         return binding.root
-    }
-
-    private fun getImagesFromFirebaseStorage() {
-        val storage = FirebaseStorage.getInstance(FIREBASE_STORAGE)
-        val storageRef = storage.reference
-        val imageRefs = storageRef.child(FIREBASE_CATEGORIES_FOLDER)
-        val imageMap = mutableMapOf<String, Bitmap>()
-
-        imageRefs.listAll().addOnSuccessListener { listResult ->
-            listResult.items.forEach { item ->
-                item.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
-                    val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                    imageMap[changeCatName(requireContext(), item.name)] = bitmap
-                    showCategories(categories = imageMap)
-                }
-            }
-        }
     }
 
     private fun showCategories(categories: Map<String, Bitmap>) {

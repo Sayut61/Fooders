@@ -40,7 +40,7 @@ class RandomRecipesAdapter(
 class RandomRecipesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(randomRecipeEntity: RandomRecipeEntity) {
         val binding = MainBottomItemBinding.bind(itemView)
-        loadImage(randomRecipeEntity.image, binding.logoImageView)
+        randomRecipeEntity.image?.let { loadImage(it, binding.logoImageView) }
         binding.titleTv.text = randomRecipeEntity.title
     }
 }
