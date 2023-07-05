@@ -9,9 +9,12 @@
             android:orientation="vertical"
             tools:context=".ui.mainScreen.MainFragment">
 
-        <include layout="@layout/main_top_menu" />
+        <include
+                layout="@layout/main_top_menu"
+                android:id="@+id/main_top_menu" />
 
         <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/rv1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="8dp"
@@ -39,6 +42,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/rv2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingVertical="16dp">
@@ -75,5 +79,11 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <include
+                layout="@layout/error_screen"
+                android:id="@+id/error_screen"
+                android:visibility="gone" />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
+
 </ScrollView>

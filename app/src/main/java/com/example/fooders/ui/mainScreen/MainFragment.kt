@@ -55,6 +55,45 @@ class MainFragment : Fragment(), CategoriesListener, RandomRecipesListener {
         viewModel.categoriesFromFirebase.observe(viewLifecycleOwner) {
             showCategories(it)
         }
+
+        viewModel.isConnectState.observe(viewLifecycleOwner) { isConnected ->
+            if (isConnected) {
+                viewModel.loadRecipes()
+                viewModel.loadCategoriesFromFirebaseStorage(requireContext())
+            } else {
+
+            }
+        }
+
+        viewModel.screenStatus.observe(viewLifecycleOwner) {
+            when (it) {
+                MainScreenStatus.ERROR -> {
+                    showError()
+                }
+                MainScreenStatus.CONTENT -> {
+                    showContent()
+                }
+                MainScreenStatus.SKELETON -> {
+
+                }
+                else -> {
+                }
+            }
+        }
+    }
+
+    private fun showContent () {
+        binding.errorScreen.root.visibility = View.GONE
+        binding.mainTopMenu.root.visibility = View.VISIBLE
+        binding.rv1.visibility = View.VISIBLE
+        binding.rv2.visibility = View.VISIBLE
+    }
+
+    private fun showError () {
+        binding.errorScreen.root.visibility = View.VISIBLE
+        binding.mainTopMenu.root.visibility = View.GONE
+        binding.rv1.visibility = View.GONE
+        binding.rv2.visibility = View.GONE
     }
 
     private fun showCategories(categories: Map<String, Bitmap>) {
