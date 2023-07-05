@@ -1,6 +1,8 @@
 package com.example.fooders.ui.mainScreen
 
+import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,13 +18,19 @@ import com.example.fooders.ui.adapters.CategoriesAdapter
 import com.example.fooders.ui.adapters.CategoriesListener
 import com.example.fooders.ui.adapters.RandomRecipesAdapter
 import com.example.fooders.ui.adapters.RandomRecipesListener
+import com.example.fooders.ui.common.ConstantsFirebase
+import com.example.fooders.ui.utils.changeCatName
+import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainFragment : Fragment(), CategoriesListener, RandomRecipesListener {
+class MainScreenFragment : Fragment(), CategoriesListener, RandomRecipesListener {
     private val viewModel: MainViewModel by viewModels()
     private var _binding: FrMainBinding? = null
     private val binding get() = _binding!!
+
+    private var imageMap = mutableMapOf<String, Bitmap>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,27 +47,21 @@ class MainFragment : Fragment(), CategoriesListener, RandomRecipesListener {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         PagerSnapHelper().attachToRecyclerView(binding.randomRecipesRV)
 
+        viewModel.checkNetwork()
+        loadCategories(requireContext())
 
         if (viewModel.randomRecipesData.value == null) {
-            viewModel.loadRecipes()
-        }
-
-        if (viewModel.categoriesFromFirebase.value == null) {
-            viewModel.loadCategoriesFromFirebaseStorage(requireContext())
+            viewModel.loadData()
         }
 
         viewModel.randomRecipesData.observe(viewLifecycleOwner) {
             showRandomRecipes(it)
         }
 
-        viewModel.categoriesFromFirebase.observe(viewLifecycleOwner) {
-            showCategories(it)
-        }
-
-        viewModel.isConnectState.observe(viewLifecycleOwner) { isConnected ->
-            if (isConnected) {
-                viewModel.loadRecipes()
-                viewModel.loadCategoriesFromFirebaseStorage(requireContext())
+        binding.errorScreen.reloadBtn.setOnClickListener {
+            if (viewModel.isConnectState.value == true) {
+                viewModel.loadData()
+                loadCategories(requireContext())
             } else {
 
             }
@@ -70,30 +72,54 @@ class MainFragment : Fragment(), CategoriesListener, RandomRecipesListener {
                 MainScreenStatus.ERROR -> {
                     showError()
                 }
+
                 MainScreenStatus.CONTENT -> {
                     showContent()
                 }
+
                 MainScreenStatus.SKELETON -> {
 
                 }
+
                 else -> {
                 }
             }
         }
     }
 
-    private fun showContent () {
+    private fun showContent() {
         binding.errorScreen.root.visibility = View.GONE
         binding.mainTopMenu.root.visibility = View.VISIBLE
         binding.rv1.visibility = View.VISIBLE
         binding.rv2.visibility = View.VISIBLE
     }
 
-    private fun showError () {
+    private fun showError() {
         binding.errorScreen.root.visibility = View.VISIBLE
         binding.mainTopMenu.root.visibility = View.GONE
         binding.rv1.visibility = View.GONE
         binding.rv2.visibility = View.GONE
+    }
+
+    private fun loadCategories(context: Context) {
+        if (imageMap.isNotEmpty()) {
+            showCategories(imageMap)
+        } else {
+            val storage = FirebaseStorage.getInstance(ConstantsFirebase.FIREBASE_STORAGE)
+            val storageRef = storage.reference
+            val imageRefs = storageRef.child(ConstantsFirebase.FIREBASE_CATEGORIES_FOLDER)
+
+            imageRefs.listAll().addOnSuccessListener { listResult ->
+                listResult.items.forEach { item ->
+                    item.getBytes(ConstantsFirebase.ONE_MEGABYTE)
+                        .addOnSuccessListener { bytes ->
+                            val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                            imageMap[changeCatName(context, item.name)] = bitmap
+                            showCategories(imageMap)
+                        }
+                }
+            }
+        }
     }
 
     private fun showCategories(categories: Map<String, Bitmap>) {

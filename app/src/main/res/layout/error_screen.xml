@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical">
 
     <ImageView
@@ -30,5 +31,24 @@
             android:layout_marginVertical="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+    <com.google.android.material.card.MaterialCardView
+            android:id="@+id/reload_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/main_orange"
+            app:cardCornerRadius="16dp"
+            android:layout_margin="16dp"
+            android:clickable="true">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/repeat"
+                android:gravity="center"
+                android:padding="10dp"
+                android:textSize="18sp"
+                android:textColor="@color/black"/>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>
